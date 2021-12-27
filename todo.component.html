@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="row">
+        <div class="col-5 mx-auto">
+            <h3 class="bg-primary text-white p-3">
+                {{getName()}}' nın Listesi
+            </h3>
+            <div class="div input-group mb-3">
+                <input 
+                [(ngModel)]="message"
+                #inputItem type="text" class="form-control"(keyup.enter)="addItem(inputItem.value);inputItem.value=''">
+                <button class="btn btn-outline-primary"(click)="addItem(inputItem.value);inputItem.value=''">Add</button>
+            </div>
+            
+            <div class="form-check mb-3">
+                <input type="checkbox" [(ngModel)]="displayAll" class="form-check-input" name="" id="displayAll">
+                <label for="displayAll" class="form-check-label">Hepsini Göster</label>
+            </div>
+            <div class="my-2">
+              {{displayCount()}} görev tamam
+            </div>
+            <div class="alert alert-warning"*ngIf="getItems().length == 0 else itemsTable" >
+                Tüm görevler tamam
+
+            </div>
+            <ng-template #itemsTable>
+              <table class="table table-bordered" >
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                  <tbody>
+                    <tr *ngFor="let item of getItems();let i=index;" [class.bg-primary]="item.action" [class.bg-warning]="!item.action">
+                        <td>{{i+1}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <!-- <div *ngIf="item.action">Yes</div>
+                            <div *ngIf="!item.action">No</div> -->
+                             <div [ngSwitch]="item.action">
+                                <div *ngSwitchCase="true">Yes</div>
+                                <div *ngSwitchDefault>No</div>
+                            </div>>
+                        </td>
+                        <td><input type="checkbox" [(ngModel)]="item.action" name="" id=""></td>
+                    </tr>
+                    
+                  </tbody>
+
+                </table>
+           </ng-template>
+            
+        </div>
+    </div>
+</div>
